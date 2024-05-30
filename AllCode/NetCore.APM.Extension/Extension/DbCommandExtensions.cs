@@ -44,7 +44,7 @@ namespace NetCore.APM.Extension.Extension
             // 处理 DbCommand，例如记录参数
             Console.WriteLine("Command SQL: " + command.CommandText);
             var paramTuple = command.GetParamTuple();
-            var span = Agent.Tracer.CurrentSpan ?? GetTransaction().StartSpan("SQL Parameters Span", String.Empty);
+            var span = Agent.Tracer.CurrentSpan ?? GetTransaction()?.StartSpan("SQL Parameters Span", String.Empty);
             var paramDic = paramTuple.Item2;
             var index = 0;
             foreach (var param in paramTuple.Item2)
