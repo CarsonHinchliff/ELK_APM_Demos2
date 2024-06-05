@@ -11,36 +11,36 @@ namespace NetCore.APM.Extension
     {
         public static string DataTableToJson(this DataTable table)
         {
-            var JsonString = new StringBuilder();
+            var jsonStr = new StringBuilder();
             if (table.Rows.Count > 0)
             {
-                JsonString.Append("[");
+                jsonStr.Append("[");
                 for (int i = 0; i < table.Rows.Count; i++)
                 {
-                    JsonString.Append("{");
+                    jsonStr.Append("{");
                     for (int j = 0; j < table.Columns.Count; j++)
                     {
                         if (j < table.Columns.Count - 1)
                         {
-                            JsonString.Append("\"" + table.Columns[j].ColumnName.ToString() + "\":" + "\"" + table.Rows[i][j].ToString() + "\",");
+                            jsonStr.Append("\"" + table.Columns[j].ColumnName.ToString() + "\":" + "\"" + table.Rows[i][j].ToString() + "\",");
                         }
                         else if (j == table.Columns.Count - 1)
                         {
-                            JsonString.Append("\"" + table.Columns[j].ColumnName.ToString() + "\":" + "\"" + table.Rows[i][j].ToString() + "\"");
+                            jsonStr.Append("\"" + table.Columns[j].ColumnName.ToString() + "\":" + "\"" + table.Rows[i][j].ToString() + "\"");
                         }
                     }
                     if (i == table.Rows.Count - 1)
                     {
-                        JsonString.Append("}");
+                        jsonStr.Append("}");
                     }
                     else
                     {
-                        JsonString.Append("},");
+                        jsonStr.Append("},");
                     }
                 }
-                JsonString.Append("]");
+                jsonStr.Append("]");
             }
-            return JsonString.ToString();
+            return jsonStr.ToString();
         }
     }
 }

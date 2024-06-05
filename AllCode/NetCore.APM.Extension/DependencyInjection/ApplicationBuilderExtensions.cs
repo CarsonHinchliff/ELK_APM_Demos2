@@ -2,7 +2,6 @@
 using Elastic.Apm.NetCoreAll;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
-using NetCore.APM.Extension.Component;
 
 namespace NetCore.APM.Extension.DependencyInjection
 {

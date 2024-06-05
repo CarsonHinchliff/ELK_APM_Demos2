@@ -10,7 +10,6 @@ using Elastic.Apm.Api;
 using Elastic.Apm;
 using System.Text.Json.Serialization;
 using System.Diagnostics;
-using NetCore.APM.Extension.Extension;
 using Newtonsoft.Json.Linq;
 using System.Reflection.Metadata;
 

@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NetCore.APM.Extension.Extension
+namespace NetCore.APM.Extension
 {
     internal static class DbCommandExtensions
     {
@@ -41,10 +41,9 @@ namespace NetCore.APM.Extension.Extension
 
         public static void AppendToSpan(this IDbCommand command)
         {
-            // 处理 DbCommand，例如记录参数
-            Console.WriteLine("Command SQL: " + command.CommandText);
             var paramTuple = command.GetParamTuple();
-            var span = Agent.Tracer.CurrentSpan ?? GetTransaction()?.StartSpan("SQL Parameters Span", String.Empty);
+            var span = Agent.Tracer.CurrentSpan ?? GetTransaction().StartSpan(command.CommandText, 
+                ApiConstants.TypeDb, ApiConstants.SubtypeMssql, ApiConstants.ActionExec);
             var paramDic = paramTuple.Item2;
             var index = 0;
             foreach (var param in paramTuple.Item2)

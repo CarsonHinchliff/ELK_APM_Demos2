@@ -7,12 +7,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NetCore.APM.Extension.Extension;
 
 namespace NetCore.APM.Extension
 {
     internal class ApmDiagnosticObserver : IObserver<DiagnosticListener>,
-     IObserver<KeyValuePair<string, object>>
+     IObserver<KeyValuePair<string, object?>>
     {
         private readonly List<IDisposable> _subscriptions = new List<IDisposable>();
 
@@ -34,7 +33,7 @@ namespace NetCore.APM.Extension
             return Agent.Tracer.CurrentSpan;
         }
 
-        public void OnNext(KeyValuePair<string, object> value)
+        public void OnNext(KeyValuePair<string, object?> value)
         {
             Write(value.Key, value.Value);
         }
@@ -51,12 +50,13 @@ namespace NetCore.APM.Extension
         private bool IsEnabled(string name)
         {
             return name == "System.Data.SqlClient.WriteCommandBefore"
-              || name == "System.Data.SqlClient.WriteCommandAfter";
+              || name == "System.Data.SqlClient.WriteCommandAfter"
+              || name == "System.Data.SqlClient.WriteCommandError";
         }
 
         private readonly AsyncLocal<Stopwatch> _stopwatch = new AsyncLocal<Stopwatch>();
 
-        private void Write(string name, object value)
+        private void Write(string name, object? value)
         {
             switch (name)
             {
@@ -66,7 +66,8 @@ namespace NetCore.APM.Extension
                         break;
                     }
                 case "System.Data.SqlClient.WriteCommandAfter":
-                    {                        
+                case "System.Data.SqlClient.WriteCommandError":
+                    {
                         var stopwatch = _stopwatch.Value;
                         stopwatch.Stop();
                         var command = GetProperty<SqlCommand>(value, "Command");
