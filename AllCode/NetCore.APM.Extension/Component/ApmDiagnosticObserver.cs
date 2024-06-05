@@ -73,7 +73,7 @@ namespace NetCore.APM.Extension
                         Console.WriteLine($"CommandText: {command.CommandText}");
                         Console.WriteLine($"Elapsed: {stopwatch.Elapsed}");
                         Console.WriteLine();
-                        command.AppendToSpan();
+                        command?.AppendToSpan();
                         break;
                     }
             }
